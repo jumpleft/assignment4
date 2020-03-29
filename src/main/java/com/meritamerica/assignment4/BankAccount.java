@@ -10,6 +10,7 @@ public abstract class BankAccount {
 	//private double futureBalance;
 	private long accountNumber;
 	private java.util.Date openedOn;
+	private List<Transaction> transactionList = null;
 	
 	public BankAccount(double balance, double interestRate) {
 		
@@ -121,6 +122,26 @@ public abstract class BankAccount {
 		String toBeReturned = sb.toString();
 		return toBeReturned;
 	}
+	
+	public void addTransaction(Transaction transaction) {
+		
+		if(transactionList == null){}
+		
+		
+		transactionList = temp;
+	}
+	
+	public List<Transaction> getTransactions() {
+		return transactionList;
+		
+	}
+
+	
+	
+	
+	
+	
+	
 	
 	/*static BankAccount readFromString(String accountData) {
 		

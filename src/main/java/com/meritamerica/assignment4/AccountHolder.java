@@ -85,26 +85,96 @@ public class AccountHolder {
 		
 	}
 	
-	public CheckingAccount addCheckingAccount(double startBalance) {
+	public CheckingAccount addCheckingAccount(double startBalance) throws ExceedsCombinedBalanceLimitException {
+		if(getCombinedBalance() + startBalance >= ExceedsCombinedBalanceLimitException.getCombinedbalancelimit()){
+			throw new ExceedsCombinedBalanceLimitException();
+		}
 		CheckingAccount toBeAdded = new CheckingAccount(startBalance);
 		BankAccount[] temp = {toBeAdded};
 		setBankAccounts(temp);
+		
+		//adds deposit to transaction list
+		DepositTransaction DT = new DepositTransaction(toBeAdded , startBalance);
+		toBeAdded.addTransaction(DT);		
+		
 		return toBeAdded;
 		
 	}
 	
-	public SavingsAccount addSavingsAccount(double startBalance) {
+	public CheckingAccount addCheckingAccount(CheckingAccount CheckingAccount) throws ExceedsCombinedBalanceLimitException {
+		Double balance = CheckingAccount.getBalance();
+		
+		if(getCombinedBalance() + balance >= ExceedsCombinedBalanceLimitException.getCombinedbalancelimit()){
+			throw new ExceedsCombinedBalanceLimitException();
+		}
+		
+		BankAccount[] temp = {CheckingAccount};
+		setBankAccounts(temp);
+		
+		//adds deposit to transaction list
+		DepositTransaction DT = new DepositTransaction(CheckingAccount , balance);
+		CheckingAccount.addTransaction(DT);		
+		
+		return CheckingAccount;
+		
+	}
+	
+	public SavingsAccount addSavingsAccount(double startBalance) throws ExceedsCombinedBalanceLimitException {
+		if(getCombinedBalance() + startBalance >= ExceedsCombinedBalanceLimitException.getCombinedbalancelimit()){
+			throw new ExceedsCombinedBalanceLimitException();
+		}
 		SavingsAccount toBeAdded = new SavingsAccount(startBalance);
 		BankAccount[] temp = {toBeAdded};
 		setBankAccounts(temp);
+		
+		//adds deposit to transaction list
+		DepositTransaction DT = new DepositTransaction(toBeAdded , startBalance);
+		toBeAdded.addTransaction(DT);		
+		
 		return toBeAdded;
 	}
+	
+	public SavingsAccount addSavingsAccount(SavingsAccount SavingsAccount) throws ExceedsCombinedBalanceLimitException {
+		Double balance = SavingsAccount.getBalance();
+		
+		if(getCombinedBalance() + balance >= ExceedsCombinedBalanceLimitException.getCombinedbalancelimit()){
+			throw new ExceedsCombinedBalanceLimitException();
+		}
+		
+		BankAccount[] temp = {SavingsAccount};
+		setBankAccounts(temp);
+		
+		//adds deposit to transaction list
+		DepositTransaction DT = new DepositTransaction(SavingsAccount , balance);
+		SavingsAccount.addTransaction(DT);		
+		
+		return SavingsAccount;
+		
+	}	
 	
 	public CDAccount addCDAccount(CDOffering cDOffering , double startBalance) {
 		CDAccount toBeAdded = new CDAccount(cDOffering , startBalance);
 		BankAccount[] temp = {toBeAdded};
 		setBankAccounts(temp);
+		
+		//adds deposit to transaction list
+		DepositTransaction DT = new DepositTransaction(toBeAdded , startBalance);
+		toBeAdded.addTransaction(DT);		
+		
 		return toBeAdded;
+	}	
+	
+	public CDAccount addCDAccount(CDAccount CDAccount) {
+		
+		BankAccount[] temp = {CDAccount};
+		setBankAccounts(temp);
+		
+		//adds deposit to transaction list
+		Double balance = CDAccount.getBalance();
+		DepositTransaction DT = new DepositTransaction(CDAccount , balance);
+		CDAccount.addTransaction(DT);		
+		
+		return CDAccount;
 	}
 	
 	
@@ -164,6 +234,7 @@ public class AccountHolder {
 		return counterCDA;
 		
 	}
+	
 	public int getNumberOfCheckingAccounts() {
 		
 		int counterCA = 0;
@@ -195,11 +266,6 @@ public class AccountHolder {
 		}
 		return counterSA;
 	}
-	
-	
-	
-	
-	
 	
 	
 	

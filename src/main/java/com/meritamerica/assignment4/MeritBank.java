@@ -185,7 +185,19 @@ public class MeritBank {
 		
 	}
 	
+	public static boolean processTransaction(Transaction transaction) throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
+		
+	}
 	
+	public static FraudQueue getFraudQueue() {
+		
+	}
+	
+	public static BankAccount getBankAccount(long accountId) {
+		
+		return null
+	}
+
 	
 	//static double totalBalances(){}
 	
