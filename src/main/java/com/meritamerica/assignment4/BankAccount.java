@@ -1,9 +1,9 @@
 package com.meritamerica.assignment4;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+//import java.text.ParseException;
+//import java.text.SimpleDateFormat;
 
-public class BankAccount {
+public abstract class BankAccount {
 
 	private double balance;
 	private double interestRate;
@@ -122,7 +122,7 @@ public class BankAccount {
 		return toBeReturned;
 	}
 	
-	static BankAccount readFromString(String accountData) {
+	/*static BankAccount readFromString(String accountData) {
 		
 		BankAccount toBeAdded = null;
 		try{
@@ -143,6 +143,6 @@ public class BankAccount {
 		
 		return toBeAdded;
 		
-	}
+	}*/
 	
 }

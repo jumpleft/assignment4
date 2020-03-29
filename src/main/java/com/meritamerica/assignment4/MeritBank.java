@@ -181,7 +181,9 @@ public class MeritBank {
 				
 	}
 	
-	
+	public static double recursiveFutureValue(double amount, int years, double interestRate) {
+		
+	}
 	
 	
 	
