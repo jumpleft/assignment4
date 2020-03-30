@@ -9,7 +9,7 @@ public class MeritBank {
 	public static AccountHolder[] accountHolders;
 	public static CDOffering[] CDOfferings;
 	public static long nextAccountNumber = 12345001;
-	
+	private static FraudQueue fraudQueue;
 	
 	
 	
@@ -185,18 +185,59 @@ public class MeritBank {
 		
 	}
 	
+	
 	public static boolean processTransaction(Transaction transaction) throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
 		
+		boolean result = true;
+		double test = transaction.getAmount();
+		BankAccount target = transaction.getTargetAccount();
+		
+		if(test > FraudQueue.getExcessiveAmount()){
+			fraudQueue.addTransaction(transaction);
+			throw new ExceedsFraudSuspicionLimitException();
+			
+		}else if(test < 0){
+			result = false;
+			throw new NegativeAmountException();
+			
+		}else{
+			if(transaction.getSourceAccount() != null){
+				double testie = transaction.getSourceAccount().getBalance();
+				if(testie < test) {
+					result = false;
+					throw new ExceedsAvailableBalanceException();
+				}	
+			}
+			
+		}
+		target.addTransaction(transaction);
+		return result;
 	}
+	
 	
 	public static FraudQueue getFraudQueue() {
-		
+		return fraudQueue;
 	}
 	
+	
 	public static BankAccount getBankAccount(long accountId) {
-		
-		return null
+		BankAccount[] bankAccounts = AccountHolder.getBankAccounts();
+		BankAccount temp = null;
+		for(int i = 0 ; i < bankAccounts.length ; i++) {
+			if(bankAccounts[i].getAccountNumber() == accountId) {
+				temp = bankAccounts[i];
+			}
+			
+		}		
+		return temp;
+				
 	}
+	
+	public static void addToFraudQueue(Transaction transaction) {
+		fraudQueue.addTransaction(transaction);
+	}
+	
+	
 
 	
 	//static double totalBalances(){}

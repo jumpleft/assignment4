@@ -8,6 +8,24 @@ public abstract class Transaction {
 	private java.util.Date transactionDate;
 	
 	
+	public Transaction(BankAccount targetAccount , double amount) {
+		
+		this.targetAccount = targetAccount;
+		this.amount = amount;
+		this.transactionDate = new java.util.Date();
+		
+	} 
+	
+	public Transaction(BankAccount sourceAccount , BankAccount targetAccount , double amount) {
+		
+		this.sourceAccount = sourceAccount;
+		this.targetAccount = targetAccount;
+		this.amount = amount;
+		this.transactionDate = new java.util.Date();
+		
+	}
+	
+	
 	
 	
 	

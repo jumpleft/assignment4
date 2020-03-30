@@ -6,7 +6,7 @@ public class AccountHolder {
 	private String middleName;
 	private String lastName;
 	private String ssn;
-	private BankAccount[] bankAccounts ;
+	private static BankAccount[] bankAccounts ;
 	
 	
 	
@@ -29,7 +29,7 @@ public class AccountHolder {
 		CheckingAccount CA1 = new CheckingAccount(checkingAccountOpeningBalance);
 		SavingsAccount SA1 = new SavingsAccount(savingsAccountOpeningBalance);
 		BankAccount[] ba = {CA1 , SA1};
-		this.bankAccounts = ba;
+		setBankAccounts(ba);
 		
 	}
 
@@ -41,7 +41,7 @@ public class AccountHolder {
 		this.lastName = lastName;
 		this.ssn = ssn;
 		BankAccount[] ba = {starterBankAccount};
-		this.bankAccounts = ba; 
+		setBankAccounts(ba);
 		
 	}
 	
@@ -52,16 +52,19 @@ public class AccountHolder {
 		this.lastName = lastName;
 		this.ssn = ssn;
 		BankAccount[] ba = {starterBankAccount , seccountBankAccount};
-		this.bankAccounts = ba; 
+		setBankAccounts(ba);
+		
     }
 	
 	
 	
 	public double getCombinedBalance() {
 		double holdersTotal = 0;
-		for(int i = 0 ; i < bankAccounts.length ; i++){
-			holdersTotal += bankAccounts[i].getBalance();
-		}
+			if(bankAccounts != null){
+				for(int i = 0 ; i < bankAccounts.length ; i++){
+					holdersTotal += bankAccounts[i].getBalance();
+				}
+			}
 		return holdersTotal;
 	}
 	
@@ -94,9 +97,14 @@ public class AccountHolder {
 		setBankAccounts(temp);
 		
 		//adds deposit to transaction list
-		DepositTransaction DT = new DepositTransaction(toBeAdded , startBalance);
-		toBeAdded.addTransaction(DT);		
+		DepositTransaction dt = new DepositTransaction(toBeAdded , startBalance);
+		toBeAdded.addTransaction(dt);
 		
+		if(startBalance > FraudQueue.getExcessiveAmount()){
+			MeritBank.addToFraudQueue(dt);
+			
+		}
+			
 		return toBeAdded;
 		
 	}
@@ -112,8 +120,13 @@ public class AccountHolder {
 		setBankAccounts(temp);
 		
 		//adds deposit to transaction list
-		DepositTransaction DT = new DepositTransaction(CheckingAccount , balance);
-		CheckingAccount.addTransaction(DT);		
+		DepositTransaction dt = new DepositTransaction(CheckingAccount , balance);
+		CheckingAccount.addTransaction(dt);
+		
+		if(balance > FraudQueue.getExcessiveAmount()){
+			MeritBank.addToFraudQueue(dt);
+			
+		}		
 		
 		return CheckingAccount;
 		
@@ -128,8 +141,13 @@ public class AccountHolder {
 		setBankAccounts(temp);
 		
 		//adds deposit to transaction list
-		DepositTransaction DT = new DepositTransaction(toBeAdded , startBalance);
-		toBeAdded.addTransaction(DT);		
+		DepositTransaction dt = new DepositTransaction(toBeAdded , startBalance);
+		toBeAdded.addTransaction(dt);
+		
+		if(startBalance > FraudQueue.getExcessiveAmount()){
+			MeritBank.addToFraudQueue(dt);
+			
+		}		
 		
 		return toBeAdded;
 	}
@@ -145,24 +163,38 @@ public class AccountHolder {
 		setBankAccounts(temp);
 		
 		//adds deposit to transaction list
-		DepositTransaction DT = new DepositTransaction(SavingsAccount , balance);
-		SavingsAccount.addTransaction(DT);		
+		DepositTransaction dt = new DepositTransaction(SavingsAccount , balance);
+		SavingsAccount.addTransaction(dt);
+		
+		if(balance > FraudQueue.getExcessiveAmount()){
+			MeritBank.addToFraudQueue(dt);
+			
+		}		
 		
 		return SavingsAccount;
 		
 	}	
 	
 	public CDAccount addCDAccount(CDOffering cDOffering , double startBalance) {
+		
 		CDAccount toBeAdded = new CDAccount(cDOffering , startBalance);
 		BankAccount[] temp = {toBeAdded};
 		setBankAccounts(temp);
 		
 		//adds deposit to transaction list
-		DepositTransaction DT = new DepositTransaction(toBeAdded , startBalance);
-		toBeAdded.addTransaction(DT);		
+		Double balance = toBeAdded.getBalance();
+		DepositTransaction dt = new DepositTransaction(toBeAdded , balance);
+		toBeAdded.addTransaction(dt);
 		
-		return toBeAdded;
-	}	
+		if(balance > FraudQueue.getExcessiveAmount()){
+			MeritBank.addToFraudQueue(dt);
+			
+		}	
+		
+		
+		return toBeAdded;				
+				
+	}
 	
 	public CDAccount addCDAccount(CDAccount CDAccount) {
 		
@@ -171,14 +203,20 @@ public class AccountHolder {
 		
 		//adds deposit to transaction list
 		Double balance = CDAccount.getBalance();
-		DepositTransaction DT = new DepositTransaction(CDAccount , balance);
-		CDAccount.addTransaction(DT);		
+		DepositTransaction dt = new DepositTransaction(CDAccount , balance);
+		CDAccount.addTransaction(dt);		
 		
-		return CDAccount;
+		if(balance > FraudQueue.getExcessiveAmount()){
+			MeritBank.addToFraudQueue(dt);
+			
+		}	
+		
+		return CDAccount;				
+				
 	}
 	
 	
-	public BankAccount[] getBankAccounts() {
+	public static BankAccount[] getBankAccounts() {
 		return bankAccounts;
 	}
 	

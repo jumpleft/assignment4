@@ -10,7 +10,7 @@ public abstract class BankAccount {
 	//private double futureBalance;
 	private long accountNumber;
 	private java.util.Date openedOn;
-	private List<Transaction> transactionList = null;
+	private List<Transaction> transactionList;
 	
 	public BankAccount(double balance, double interestRate) {
 		
@@ -101,6 +101,13 @@ public abstract class BankAccount {
 		return false;
 		
 	}
+	
+	boolean transfer(BankAccount from , BankAccount to , double amount) {
+		
+		
+		
+		return false;
+	}
 
 		
 	public String toString() {
@@ -125,10 +132,14 @@ public abstract class BankAccount {
 	
 	public void addTransaction(Transaction transaction) {
 		
-		if(transactionList == null){}
-		
-		
-		transactionList = temp;
+		if(transactionList == null){
+			Node<Transaction> n = new Node<Transaction>(transaction);
+			transactionList = new List<Transaction>(n);
+			
+		}else {
+			transactionList.enqueue(transaction);
+		}
+				
 	}
 	
 	public List<Transaction> getTransactions() {
