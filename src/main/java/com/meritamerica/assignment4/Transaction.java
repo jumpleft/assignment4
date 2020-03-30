@@ -84,13 +84,14 @@ public abstract class Transaction {
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 			String[] toBeParsed = transactionDataString.split(",");
 			BankAccount targetAccount = target;
-			//double aThingToBeAdded = Double.parseDouble(toBeParsed[0]);
+			long aThingToBeAdded = Long.parseLong(toBeParsed[0]);
+			long accountNumber = Long.parseLong(toBeParsed[1]);
 			double ammountToBeAdded = Double.parseDouble(toBeParsed[2]);
 			java.util.Date dateToBeAdded = dateFormatter.parse(toBeParsed[3]);
 			
-			if(Double.parseDouble(toBeParsed[0]) < 0 && Double.parseDouble(toBeParsed[3]) > 0){
+			if(aThingToBeAdded < 0 && ammountToBeAdded > 0){
 			    toBeAdded = new DepositTransaction(targetAccount , ammountToBeAdded , dateToBeAdded);
-			}else if(Double.parseDouble(toBeParsed[0]) < 0 && Double.parseDouble(toBeParsed[3]) < 0) {
+			}else if(aThingToBeAdded < 0 && ammountToBeAdded < 0) {
 				toBeAdded = new WithdrawTransaction(targetAccount , ammountToBeAdded , dateToBeAdded);
 			}else {
 				toBeAdded = new TransferTransaction(targetAccount , ammountToBeAdded , dateToBeAdded); 

@@ -15,7 +15,7 @@ public class MeritBank {
 	
 	public static boolean readFromFile(String fileName) {
 		
-		boolean resoseultes = false;
+		boolean resoseultes = true;
 		try {
 			BufferedReader bufRead = new BufferedReader(new FileReader(fileName));
 				
@@ -78,9 +78,9 @@ public class MeritBank {
 			bufRead.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			resoseultes = true;
+			resoseultes = false;
 		}catch(NumberFormatException exception) {
-			resoseultes = true;
+			resoseultes = false;
 		}
 		return resoseultes;
 	}
