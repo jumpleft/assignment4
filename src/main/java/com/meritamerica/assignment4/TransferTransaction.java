@@ -6,4 +6,9 @@ public class TransferTransaction extends Transaction {
 		super(sourceAccount , targetAccount , amount);		
 	}
 
+	
+	TransferTransaction(BankAccount targetAccount, double amount , java.util.Date dateToBeAdded) {
+		super(targetAccount , amount , dateToBeAdded);
+	}
+
 }

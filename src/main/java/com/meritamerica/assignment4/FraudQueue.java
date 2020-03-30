@@ -2,7 +2,7 @@ package com.meritamerica.assignment4;
 
 public class FraudQueue {
 	
-	private List<Transaction> fq;
+	private List<Transaction> fq = null;
 	public static final double excessiveAmount = 1000;
 	
 	public FraudQueue() {
@@ -11,6 +11,9 @@ public class FraudQueue {
 	
 	
 	public void addTransaction(Transaction transaction) {
+		if(fq == null) {
+			fq = new List<Transaction>();
+		}
 		fq.enqueue(transaction);
 	}
 	

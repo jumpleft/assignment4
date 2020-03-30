@@ -25,8 +25,8 @@ public class CDAccount extends BankAccount {
 	
 	
      public double futureValue() {
-	    double fvToReturn = super.futureValue(term);	
-		return fvToReturn;		
+	    return super.futureValue(term);
+			
      }
      
      boolean withdraw(double amount) {
@@ -70,8 +70,21 @@ public class CDAccount extends BankAccount {
      @Override 
      public String writeToString() {
  		StringBuilder sb = new StringBuilder(getAccountNumber() + "," + getBalance() + "," + term + "," + getInterestRate() + "," + getOpenedOn());
+ 		
+ 		int numberOfTransactions = super.getTransactions().size();
+		sb.append(numberOfTransactions + "/n");
+		while(!getTransactions().isEmpty()){
+			sb.append(getTransactions().dequeue() + "/n");
+		}
+ 		
  		String toBeReturned = sb.toString();
  		return toBeReturned;
  	}
      
 }
+
+
+
+
+
+

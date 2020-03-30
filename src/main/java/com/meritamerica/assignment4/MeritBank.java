@@ -14,6 +14,8 @@ public class MeritBank {
 	
 	
 	public static boolean readFromFile(String fileName) {
+		
+		boolean resoseultes = false;
 		try {
 			BufferedReader bufRead = new BufferedReader(new FileReader(fileName));
 				
@@ -43,18 +45,30 @@ public class MeritBank {
 					int secoundTempIntForProssessing = Integer.parseInt(bufRead.readLine());
 					for(int j = 0 ; j < secoundTempIntForProssessing ; j++){
 						CheckingAccount ch = CheckingAccount.readFromString(bufRead.readLine());
+						int thirdTempIntForProssessing = Integer.parseInt(bufRead.readLine());
+						for(int k = 0 ; k < thirdTempIntForProssessing ; k++) {
+						ch.addTransaction(Transaction.readFromString(bufRead.readLine() , ch));
+						}
 						BankAccount[] baa = {ch};
 						accountHolders[i].setBankAccounts(baa);
 					}
 					secoundTempIntForProssessing = Integer.parseInt(bufRead.readLine());
 					for(int j = 0 ; j < secoundTempIntForProssessing ; j++){
 						SavingsAccount ch = SavingsAccount.readFromString(bufRead.readLine());
+						int thirdTempIntForProssessing = Integer.parseInt(bufRead.readLine());
+						for(int k = 0 ; k < thirdTempIntForProssessing ; k++) {
+						ch.addTransaction(Transaction.readFromString(bufRead.readLine() , ch));
+						}
 						BankAccount[] baa = {ch};
 						accountHolders[i].setBankAccounts(baa);
 					}
 					secoundTempIntForProssessing = Integer.parseInt(bufRead.readLine());
 					for(int j = 0 ; j < secoundTempIntForProssessing ; j++){
 						CDAccount ch = CDAccount.readFromString(bufRead.readLine());
+						int thirdTempIntForProssessing = Integer.parseInt(bufRead.readLine());
+						for(int k = 0 ; k < thirdTempIntForProssessing ; k++) {
+						ch.addTransaction(Transaction.readFromString(bufRead.readLine() , ch));
+						}
 						BankAccount[] baa = {ch};
 						accountHolders[i].setBankAccounts(baa);
 					}
@@ -64,11 +78,11 @@ public class MeritBank {
 			bufRead.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			resoseultes = true;
 		}catch(NumberFormatException exception) {
-			return false;
+			resoseultes = true;
 		}
-		return true;
+		return resoseultes;
 	}
 	
 	
@@ -183,6 +197,20 @@ public class MeritBank {
 	
 	public static double recursiveFutureValue(double amount, int years, double interestRate) {
 		
+
+		double p = amount;
+		double interest = interestRate;
+		int n = years;
+		
+		
+		if(n == 0){
+		return p;
+		}
+		return (1 + interest) * (recursiveFutureValue(p , n -1, interest));  
+	
+		
+		
+		
 	}
 	
 	
@@ -234,6 +262,9 @@ public class MeritBank {
 	}
 	
 	public static void addToFraudQueue(Transaction transaction) {
+		if(fraudQueue == null){
+			fraudQueue = new FraudQueue();
+		}
 		fraudQueue.addTransaction(transaction);
 	}
 	

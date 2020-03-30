@@ -115,17 +115,19 @@ public abstract class BankAccount {
 	}
 
 	public double futureValue(int years) {
-			
-			double p = balance;
-			double i = interestRate;
-			int n = years;
-			double future = p*(Math.pow((1+i),n));
-			return future;
+		return MeritBank.recursiveFutureValue(balance, years, interestRate);
 					
 	}
 	
 	public String writeToString() {
-		StringBuilder sb = new StringBuilder(accountNumber + "," + balance + "," + interestRate + "," + openedOn);
+		StringBuilder sb = new StringBuilder(accountNumber + "," + balance + "," + interestRate + "," + openedOn + "/n");
+		
+		int numberOfTransactions = transactionList.size();
+		sb.append(numberOfTransactions + "/n");
+		while(!transactionList.isEmpty()){
+			sb.append(transactionList.dequeue() + "/n");
+		}
+		
 		String toBeReturned = sb.toString();
 		return toBeReturned;
 	}

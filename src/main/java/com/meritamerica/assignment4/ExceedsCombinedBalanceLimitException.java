@@ -1,5 +1,6 @@
 package com.meritamerica.assignment4;
 
+@SuppressWarnings("serial")
 public class ExceedsCombinedBalanceLimitException extends Exception {
 	
 	static final double combinedBalanceLimit = 250000;
