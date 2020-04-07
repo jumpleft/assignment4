@@ -248,18 +248,45 @@ public class MeritBank {
 	}
 	
 	
-	public static BankAccount getBankAccount(long accountId) {
-		BankAccount[] bankAccounts = AccountHolder.getBankAccounts();
-		BankAccount temp = null;
-		for(int i = 0 ; i < bankAccounts.length ; i++) {
-			if(bankAccounts[i].getAccountNumber() == accountId) {
-				temp = bankAccounts[i];
-			}
-			
-		}		
-		return temp;
+	public BankAccount getBankAccount(long accountId) {
+		
+		
+		BankAccount[] tempBankAccountArray = null;
+		
+		for(int i = 0 ; i < accountHolders.length ; i++) {			
+				BankAccount[] temptempBankAccountArray = accountHolders[i].getBankAccounts();
 				
-	}
+				if(tempBankAccountArray == null){					 
+					tempBankAccountArray = temptempBankAccountArray;
+				}else{			
+					BankAccount[] temp = new  BankAccount[temptempBankAccountArray.length + tempBankAccountArray.length];
+					for(int j = 0 ; j < tempBankAccountArray.length ; j++){
+						temp[j] = tempBankAccountArray[j];				
+					}
+					for(int j = tempBankAccountArray.length ; j < temp.length ; j++){
+						temp[i] = temptempBankAccountArray[j - tempBankAccountArray.length];				
+					}
+
+					
+					
+				tempBankAccountArray = temp;
+						
+				}
+		 }
+		 BankAccount temp = null;
+			for(int i = 0 ; i < tempBankAccountArray.length ; i++) {
+				if(tempBankAccountArray[i].getAccountNumber() == accountId) {
+				temp = tempBankAccountArray[i];
+			    }			
+		    }		
+		 return temp;
+				
+			
+		}
+		
+		
+				
+	
 	
 	public static void addToFraudQueue(Transaction transaction) {
 		if(fraudQueue == null){

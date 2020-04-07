@@ -6,7 +6,7 @@ public class AccountHolder {
 	private String middleName;
 	private String lastName;
 	private String ssn;
-	private static BankAccount[] bankAccounts ;
+	private BankAccount[] bankAccounts ;
 	
 	
 	
@@ -175,7 +175,7 @@ public class AccountHolder {
 		
 	}	
 	
-	public CDAccount addCDAccount(CDOffering cDOffering , double startBalance) {
+	public CDAccount addCDAccount(CDOffering cDOffering , double startBalance) throws ExceedsFraudSuspicionLimitException , NegativeAmountException {
 		
 		CDAccount toBeAdded = new CDAccount(cDOffering , startBalance);
 		BankAccount[] temp = {toBeAdded};
@@ -188,7 +188,7 @@ public class AccountHolder {
 		
 		if(balance > FraudQueue.getExcessiveAmount()){
 			MeritBank.addToFraudQueue(dt);
-			
+			throw new ExceedsFraudSuspicionLimitException();
 		}	
 		
 		
@@ -216,7 +216,7 @@ public class AccountHolder {
 	}
 	
 	
-	public static BankAccount[] getBankAccounts() {
+	public BankAccount[] getBankAccounts() {
 		return bankAccounts;
 	}
 	
